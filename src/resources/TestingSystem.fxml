@@ -77,12 +77,12 @@
                         <Button fx:id="addResults" layoutX="516.0" layoutY="194.0" mnemonicParsing="false" onAction="#addItems" text="Добавить..." />
                         <ScrollPane fitToHeight="true" hbarPolicy="NEVER" layoutY="219.0" prefHeight="152.0" prefWidth="300.0" vbarPolicy="NEVER">
                      <content>
-                        <ListView fx:id="testFile" prefWidth="300.0" />
+                        <ListView fx:id="testText" prefWidth="300.0" />
                      </content>
                         </ScrollPane>
                         <ScrollPane fitToHeight="true" hbarPolicy="NEVER" layoutX="300.0" layoutY="219.0" prefHeight="152.0" prefWidth="300.0" vbarPolicy="NEVER">
                      <content>
-                        <ListView fx:id="resultFile" prefWidth="300.0" />
+                        <ListView fx:id="resultText" prefWidth="300.0" />
                      </content>
                         </ScrollPane>
                     </children>
@@ -95,22 +95,22 @@
                <children>
                   <ScrollPane fitToHeight="true" hbarPolicy="NEVER" prefHeight="150.0" prefWidth="300.0" vbarPolicy="NEVER">
                      <content>
-                        <ListView fx:id="resultsProg" onMouseClicked="#onSwitchFile" prefHeight="150.0" prefWidth="300.0" />
+                        <ListView fx:id="resultsFiles" onMouseClicked="#onSwitchFile" prefHeight="150.0" prefWidth="300.0" />
                      </content>
                   </ScrollPane>
                   <ScrollPane hbarPolicy="NEVER" layoutX="300.0" prefHeight="150.0" prefWidth="300.0" vbarPolicy="NEVER">
                      <content>
-                        <ListView fx:id="results1" prefHeight="150.0" prefWidth="300.0" />
+                        <ListView fx:id="results1" prefHeight="150.0" prefWidth="300.0" onMouseClicked="#onSwitchFile" />
                      </content>
                   </ScrollPane>
                   <ScrollPane fitToHeight="true" hbarPolicy="NEVER" layoutY="150.0" prefHeight="150.0" prefWidth="300.0" vbarPolicy="NEVER">
                      <content>
-                        <ListView fx:id="resultsProgramFile" prefHeight="150.0" prefWidth="300.0" />
+                        <ListView fx:id="resultsProgramText" prefHeight="150.0" prefWidth="300.0" />
                      </content>
                   </ScrollPane>
                   <ScrollPane fitToHeight="true" hbarPolicy="NEVER" layoutX="300.0" layoutY="150.0" prefHeight="150.0" prefWidth="300.0" vbarPolicy="NEVER">
                      <content>
-                        <ListView fx:id="results1File" prefHeight="150.0" prefWidth="300.0" />
+                        <ListView fx:id="results1Text" prefHeight="150.0" prefWidth="300.0" />
                      </content>
                   </ScrollPane>
                   <ProgressBar fx:id="progressMark" layoutY="300.0" prefHeight="74.0" prefWidth="600.0" progress="0.0" />

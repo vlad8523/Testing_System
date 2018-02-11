@@ -15,30 +15,30 @@ import java.util.List;
 
 
 public class Controller{
-    File file;
-    final FileChooser fileChooser = new FileChooser();
-    final DirectoryChooser directoryChooser = new DirectoryChooser();
+    private File file;
+    private final FileChooser fileChooser = new FileChooser();
+    private final DirectoryChooser directoryChooser = new DirectoryChooser();
     @FXML
-    TextField programPath,compilatorPath;
+    private TextField programPath,compilatorPath;
     @FXML
-    ListView results,tests,results1,resultsProg,testFile,resultFile,resultsProgramFile,results1File;
+    private ListView results,tests,results1,resultsFiles,testText,resultText,resultsProgramText,results1Text;
     @FXML
-    ScrollPane scTests,scResults;
+    private ScrollPane scTests,scResults;
     @FXML
-    ComboBox language;
+    private ComboBox language;
     @FXML
-    Label mark;
+    private Label mark;
     @FXML
-    ProgressBar progressMark;
+    private ProgressBar progressMark;
     @FXML
-    Button buttonForCompilator,buttonForDirectory;
+    private Button buttonForCompilator,buttonForDirectory;
     @FXML
-    Label errProg,errComp;
-    Thread mThread;
+    private Label errProg,errComp;
+    private Thread mThread;
 
-    int complete;
+    private int complete;
 
-    DataFile[] result,test, resultsProgram;
+    private DataFile[] result,test, resultsProgram;
 
     public void openFilePath(ActionEvent actionEvent) { //
         file = fileChooser.showOpenDialog(new Stage());
@@ -111,18 +111,18 @@ public class Controller{
                         iter++;
                     }
                     for (int iterator = 0; iterator< resultsProgram.length; iterator++){
-                        if(resultsProgram[iterator].getText().equals(result[iterator].getText())) {
-                            resultsProgram[iterator].setName(resultsProgram[iterator].getName()+":Правильно");
-                            complete++;
-                        }
-
-                        else  {
-                            resultsProgram[iterator].setName(resultsProgram[iterator].getName()+":Неправильно");
-                        }
+//                        if(resultsProgram[iterator].getText().equals(result[iterator].getText())) {
+//                            resultsProgram[iterator].setName(resultsProgram[iterator].getName()+":Правильно");
+//                            complete++;
+//                        }
+//
+//                        else  {
+//                            resultsProgram[iterator].setName(resultsProgram[iterator].getName()+":Неправильно");
+//                        }
                         System.out.println(resultsProgram[iterator].getText());
                         System.out.println(result[iterator].getText());
                     }
-                    resultsProg.setItems(nameList);
+                    resultsFiles.setItems(nameList);
                     mark.setText(String.format("%.1f",(double)complete/ resultsProgram.length*10));
                     progressMark.setProgress((double) complete/ resultsProgram.length*100);
                     nameList.removeAll();
@@ -172,16 +172,16 @@ public class Controller{
         ListView listView =(ListView) mouseEvent.getSource();
         switch(listView.getId()){
             case "tests":
-                if (test!=null) testFile.setItems(test[listView.getSelectionModel().getSelectedIndex()].getText());
+                if (test!=null) testText.setItems(test[listView.getSelectionModel().getSelectedIndex()].getText());
                 break;
             case "results":
-                if (result!=null)resultFile.setItems(result[listView.getSelectionModel().getSelectedIndex()].getText());
+                if (result!=null)resultText.setItems(result[listView.getSelectionModel().getSelectedIndex()].getText());
                 break;
             case "results1" :
-                if (results1!=null)results1File.setItems(result[listView.getSelectionModel().getSelectedIndex()].getText());
+                if (results1!=null)results1Text.setItems(result[listView.getSelectionModel().getSelectedIndex()].getText());
                 break;
             case "resultsProgram":
-                if (resultsProg!=null)resultsProgramFile.setItems(resultsProgram[listView.getSelectionModel().getSelectedIndex()].getText());
+                if (resultsFiles!=null)resultsProgramText.setItems(resultsProgram[listView.getSelectionModel().getSelectedIndex()].getText());
                 break;
 
         }

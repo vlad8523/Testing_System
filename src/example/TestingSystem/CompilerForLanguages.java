@@ -4,6 +4,7 @@ package example.TestingSystem;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
+import java.io.File;
 import java.io.InputStream;
 import java.util.Scanner;
 
@@ -22,6 +23,44 @@ public class CompilerForLanguages {
         }
 
         return strings;
+    }
+
+    public static String fileName(File f){
+        String[] fileName = f.getName().split("");
+        int dotIndex = fileName.length;
+        StringBuilder fileNameWithoutExpansion = new StringBuilder();
+        for(int i = fileName.length-1;i>0;i--){
+            if(!fileName[i].equals(".")){
+                continue;
+            }
+            else{
+                dotIndex = i;
+                break;
+            }
+        }
+        for(int i = 0;i<dotIndex;i++){
+            fileNameWithoutExpansion.append(fileName[i]);
+        }
+        return fileNameWithoutExpansion.toString();
+    }
+
+    public static String fileName(String string){
+        String[] fileName = string.split("");
+        int dotIndex = fileName.length;
+        StringBuilder fileNameWithoutExpansion = new StringBuilder();
+        for(int i = fileName.length-1;i>0;i--){
+            if(!fileName[i].equals(".")){
+                continue;
+            }
+            else{
+                dotIndex = i;
+                break;
+            }
+        }
+        for(int i = 0;i<dotIndex;i++){
+            fileNameWithoutExpansion.append(fileName[i]);
+        }
+        return fileNameWithoutExpansion.toString();
     }
 
 }

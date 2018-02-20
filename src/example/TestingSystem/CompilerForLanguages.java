@@ -21,7 +21,6 @@ public class CompilerForLanguages {
         while(scan.hasNext()){
            strings.add(scan.nextLine());
         }
-
         return strings;
     }
 

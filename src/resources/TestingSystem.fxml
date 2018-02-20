@@ -1,25 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.paint.*?>
 <?import java.lang.*?>
 <?import javafx.collections.*?>
-<?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.collections.FXCollections?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.*?>
 <?import java.lang.String?>
-<?import javafx.collections.FXCollections?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.CheckBox?>
-<?import javafx.scene.control.ComboBox?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ListView?>
-<?import javafx.scene.control.ProgressBar?>
-<?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.control.Tab?>
-<?import javafx.scene.control.TabPane?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.text.Font?>
 
 <TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="example.TestingSystem.Controller">
     <tabs>
@@ -27,32 +15,23 @@
             <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                     <children>
-                        <ComboBox fx:id="language" layoutX="88.0" layoutY="51.0" onAction="#onSwitchLanguage" prefWidth="150.0" promptText="ЯП" >
+                        <ComboBox fx:id="language" layoutX="88.0" layoutY="51.0" onAction="#onSwitchLanguage" prefWidth="150.0" promptText="ЯП">
                             <items>
                                 <FXCollections fx:factory="observableArrayList">
                                     <String fx:value="Python" />
-                                    <String fx:value="Java" />
-                                    <String fx:value="C#" />
-                                    <String fx:value=".exe"/>
+                                    <!--<String fx:value="Java" />-->
+                                    <!--<String fx:value="C#" />-->
+                                    <!--<String fx:value=".exe" />-->
                                 </FXCollections>
                             </items>
                         </ComboBox>
-                        <TextField fx:id="programPath" layoutX="51.0" layoutY="110.0" prefHeight="25.0" prefWidth="276.0" promptText="Путь до программы" />
+                        <TextField editable="false" fx:id="programPath" layoutX="51.0" layoutY="110.0" prefHeight="25.0" prefWidth="276.0" promptText="Путь до программы"/>
                         <Button fx:id="buttonForProgram" layoutX="361.0" layoutY="110.0" mnemonicParsing="false" onAction="#openFilePath" text="Открыть..." />
-                        <TextField fx:id="compilatorPath" layoutX="51.0" layoutY="161.0" prefHeight="25.0" prefWidth="276.0" promptText="Путь до компилятора/интерпретатора" />
+                        <TextField editable="false" fx:id="compilatorPath" layoutX="51.0" layoutY="161.0" prefHeight="25.0" prefWidth="276.0" promptText="Путь до компилятора/интерпретатора" />
                         <Button fx:id="buttonForCompilator" layoutX="361.0" layoutY="161.0" mnemonicParsing="false" onAction="#openFilePath" text="Открыть..." />
                         <Button layoutX="534.0" layoutY="332.0" mnemonicParsing="false" onAction="#start" text="Начать" />
-                        <Label fx:id="errProg" layoutX="67.0" layoutY="93.0" textFill="RED">
-                           <font>
-                              <Font size="10.0" />
-                           </font>
-                        </Label>
-                        <Label fx:id="errComp" layoutX="67.0" layoutY="146.0" textFill="RED">
-                           <font>
-                              <Font size="10.0" />
-                           </font>
-                        </Label>
-                        <Button onAction="#openPackage" fx:id="buttonForDirectory" layoutX="361.0" layoutY="161.0" mnemonicParsing="false" text="Открыть..." visible="false" />
+                        <Button fx:id="buttonForDirectory" layoutX="361.0" layoutY="161.0" mnemonicParsing="false" onAction="#openPackage" text="Открыть..." visible="false" />
+                  <Label fx:id="errorLog" layoutX="43.0" layoutY="336.0" textFill="RED" />
                     </children>
                 </AnchorPane>
             </content>
@@ -71,7 +50,7 @@
                         <Label layoutX="436.0" text="Результаты" />
                         <ScrollPane fx:id="scResults" fitToHeight="true" hbarPolicy="NEVER" layoutX="300.0" layoutY="14.0" maxWidth="-Infinity" prefHeight="180.0" prefWidth="300.0" vbarPolicy="NEVER">
                             <content>
-                                <ListView fx:id="results" maxHeight="-Infinity" maxWidth="-Infinity" minWidth="0.0" onMouseClicked="#onSwitchFile" prefWidth="300.0" />
+                                <ListView fx:id="resultsLV" maxHeight="-Infinity" maxWidth="-Infinity" minWidth="0.0" onMouseClicked="#onSwitchFile" prefWidth="300.0" />
                             </content>
                         </ScrollPane>
                         <Button fx:id="addResults" layoutX="516.0" layoutY="194.0" mnemonicParsing="false" onAction="#addItems" text="Добавить..." />
@@ -100,7 +79,7 @@
                   </ScrollPane>
                   <ScrollPane hbarPolicy="NEVER" layoutX="300.0" prefHeight="150.0" prefWidth="300.0" vbarPolicy="NEVER">
                      <content>
-                        <ListView fx:id="results1" prefHeight="150.0" prefWidth="300.0" onMouseClicked="#onSwitchFile" />
+                        <ListView fx:id="results1LV" onMouseClicked="#onSwitchFile" prefHeight="150.0" prefWidth="300.0" />
                      </content>
                   </ScrollPane>
                   <ScrollPane fitToHeight="true" hbarPolicy="NEVER" layoutY="150.0" prefHeight="150.0" prefWidth="300.0" vbarPolicy="NEVER">

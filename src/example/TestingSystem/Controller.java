@@ -21,9 +21,7 @@ public class Controller{
     @FXML
     private TextField programPath,compilatorPath;
     @FXML
-    private ListView results,tests,results1,resultsFiles,testText,resultText,resultsProgramText,results1Text;
-    @FXML
-    private ScrollPane scTests,scResults;
+    private ListView resultsLV,tests, results1LV,resultsFiles,testText,resultText,resultsProgramText,results1Text;
     @FXML
     private ComboBox language;
     @FXML
@@ -33,8 +31,8 @@ public class Controller{
     @FXML
     private Button buttonForCompilator,buttonForDirectory;
     @FXML
-    private Label errProg,errComp;
-    private Thread mThread;
+    private Label errorLog;
+    List<File> files;
 
     private int complete;
 
@@ -52,37 +50,30 @@ public class Controller{
                     compilatorPath.setText(file.getAbsolutePath());
                     break;
             }
-
         }
     }
 
     public void addItems(ActionEvent actionEvent) throws Exception { //Метод для добавления элементов в ListView
-        List<File> files = fileChooser.showOpenMultipleDialog(new Stage());
+         files = fileChooser.showOpenMultipleDialog(new Stage());
         if(files!=null){
             javafx.scene.control.Button button = (javafx.scene.control.Button) actionEvent.getSource();
             switch (button.getId()){
                 case "addTests": //Тесты
-                    mThread = new Thread(() -> {
-                        try {
-                            test = DataFile.listToArrayDF(files, tests);
-                        }
-                        catch(Exception ex){
-                            System.err.println(ex.getMessage());
-                        }
-                    });
-                    mThread.start();
+                    try {
+                        test = DataFile.listToArrayDF(files, tests);
+                    }
+                    catch(Exception ex){
+                        errorLog.setText("Ошибка");
+                    }
                     break;
                 case "addResults": //Эталон
-                    mThread = new Thread(()-> {
-                        try {
-                            result = DataFile.listToArrayDF(files, results);
-                            results1.setItems(results.getItems());
-                        }
-                        catch (Exception ex){
-                            System.err.println(ex.getMessage());
-                        }
-                    });
-                    mThread.start();
+                    try {
+                        result = DataFile.listToArrayDF(files, resultsLV);
+                        results1LV.setItems(resultsLV.getItems());
+                    }
+                    catch (Exception ex){
+                        errorLog.setText("Ошибка");
+                    }
                     break;
             }
         }
@@ -91,40 +82,38 @@ public class Controller{
     public void start(ActionEvent actionEvent) throws Exception { /*Проверяет на пустоту все нужные объекты,
         через foreach запускает метод для компиляции кода и сохраняет все в массив ответов, сверяет все с эталоном*/
         ObservableList<String> nameList = FXCollections.observableArrayList();
-        int iter = 0;
+
         if(compilatorPath.getText()!=null&&
                 programPath.getText()!=null&&
                 tests!=null&&
-                results!=null&&
-                result.length==test.length){
+                resultsLV !=null&&
+                result.length==test.length&&
+                language.getValue()!=null){
         switch (language.getValue().toString()){
             case "Python":
-                    for (DataFile testFile:test
-                         ) {
+                complete = 0;
+                    for (int iterator = 0;iterator<test.length;iterator++){
                         resultsProgram = new DataFile[test.length];
-                        resultsProgram[iter] = new DataFile();
-                        resultsProgram[iter].setName(testFile.getName());
-                        nameList.add(testFile.getName());
-                        resultsProgram[iter].setText(CompilerForLanguages.compileForPython(testFile.getPath(),
+                        resultsProgram[iterator] = new DataFile();
+                        resultsProgram[iterator].setText(CompilerForLanguages.compileForPython(test[iterator].getPath(),
                                 compilatorPath.getText(),
                                 programPath.getText()));
-                        iter++;
+                        if(resultsProgram[iterator].getText().
+                                equals(result[iterator].getText())) {
+                            resultsProgram[iterator].setName(test[iterator].getName()+":Правильно");
+                            resultsProgram[iterator].setText(result[iterator].getText());
+                            nameList.add(resultsProgram[iterator].getName());
+                            complete++;
+                        }
+                        else  {
+                            resultsProgram[iterator].setName(test[iterator].getName()+":Неправильно");
+                            nameList.add(resultsProgram[iterator].getName());
+                        }
                     }
-                    for (int iterator = 0; iterator< resultsProgram.length; iterator++){
-//                        if(resultsProgram[iterator].getText().equals(result[iterator].getText())) {
-//                            resultsProgram[iterator].setName(resultsProgram[iterator].getName()+":Правильно");
-//                            complete++;
-//                        }
-//
-//                        else  {
-//                            resultsProgram[iterator].setName(resultsProgram[iterator].getName()+":Неправильно");
-//                        }
-                        System.out.println(resultsProgram[iterator].getText());
-                        System.out.println(result[iterator].getText());
-                    }
+
                     resultsFiles.setItems(nameList);
                     mark.setText(String.format("%.1f",(double)complete/ resultsProgram.length*10));
-                    progressMark.setProgress((double) complete/ resultsProgram.length*100);
+                    progressMark.setProgress((double) complete/ resultsProgram.length);
                     nameList.removeAll();
                     break;
                 case "Java":
@@ -132,25 +121,7 @@ public class Controller{
             }
         }
         else{
-            if (programPath.getText()!=null) {
-                file = new File(programPath.getText());
-                if (!file.exists()) {
-                    errProg.setText("Такого файла не существует.");
-                }
-            }
-            else{
-                errProg.setText("Вы не прописали путь.");
-            }
-            if (compilatorPath.getText()!=null){
-                file = new File(compilatorPath.getText());
-                file = new File(programPath.getText());
-                if (!file.exists()) {
-                    errProg.setText("Такого файла не существует.");
-                }
-            }
-            else{
-                errProg.setText("Вы не прописали путь.");
-            }
+            errorLog.setText("Ошибка");
         }
     }
 
@@ -174,14 +145,18 @@ public class Controller{
             case "tests":
                 if (test!=null) testText.setItems(test[listView.getSelectionModel().getSelectedIndex()].getText());
                 break;
-            case "results":
+            case "resultsLV":
                 if (result!=null)resultText.setItems(result[listView.getSelectionModel().getSelectedIndex()].getText());
                 break;
-            case "results1" :
-                if (results1!=null)results1Text.setItems(result[listView.getSelectionModel().getSelectedIndex()].getText());
+            case "results1LV" :
+                if (results1LV !=null)results1Text.setItems(result[listView.getSelectionModel().getSelectedIndex()].getText());
                 break;
-            case "resultsProgram":
-                if (resultsFiles!=null)resultsProgramText.setItems(resultsProgram[listView.getSelectionModel().getSelectedIndex()].getText());
+            case "resultsFiles":
+                System.out.println(listView.getSelectionModel().getSelectedIndex());
+                if (resultsFiles!=null){
+                    if(resultsProgram[listView.getSelectionModel().getSelectedIndex()]!=null)resultsProgramText.setItems(resultsProgram[listView.getSelectionModel().getSelectedIndex()].getText());
+                    else resultsProgramText.setItems(result[listView.getSelectionModel().getSelectedIndex()].getText());
+                }
                 break;
 
         }

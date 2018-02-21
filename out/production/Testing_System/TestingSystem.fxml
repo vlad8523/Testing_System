@@ -19,9 +19,9 @@
                             <items>
                                 <FXCollections fx:factory="observableArrayList">
                                     <String fx:value="Python" />
-                                    <!--<String fx:value="Java" />-->
-                                    <!--<String fx:value="C#" />-->
-                                    <!--<String fx:value=".exe" />-->
+                                    <String fx:value="Java" />
+                                    <String fx:value="Pascal" />
+                                    <String fx:value=".Exe" />
                                 </FXCollections>
                             </items>
                         </ComboBox>

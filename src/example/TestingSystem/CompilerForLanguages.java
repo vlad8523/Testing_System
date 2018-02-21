@@ -10,7 +10,7 @@ import java.util.Scanner;
 
 public class CompilerForLanguages {
 
-    public static ObservableList<String> compileForPython(String testPath, String interPath, String programPath) throws Exception{ //Метод который прогоняет один тест в консоли
+    public static ObservableList<String> interpretator(String testPath, String interPath, String programPath) throws Exception{ //Метод который прогоняет один тест в консоли
 
         ProcessBuilder builder = new ProcessBuilder("cmd.exe","/c", "type \""+testPath+"\" | \"" + interPath + "\" \"" + programPath + "\"");
         Process process = builder.start();

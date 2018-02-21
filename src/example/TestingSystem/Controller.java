@@ -11,7 +11,9 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 import java.io.File;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 public class Controller{
@@ -34,6 +36,10 @@ public class Controller{
     private Label errorLog;
     List<File> files;
 
+    DataFile userProgram = new DataFile(),languageProgram = new DataFile();
+
+    private Map<String,Language> languageMap = new HashMap<String, Language>();
+
     private int complete;
 
     private DataFile[] result,test, resultsProgram;
@@ -45,9 +51,11 @@ public class Controller{
             switch (button.getId()){
                 case "buttonForProgram":
                     programPath.setText(file.getAbsolutePath());
+                    userProgram.setPath(file.getPath());
                     break;
                 case "buttonForCompilator":
                     compilatorPath.setText(file.getAbsolutePath());
+                    languageProgram.setPath(file.getPath());
                     break;
             }
         }
@@ -87,54 +95,57 @@ public class Controller{
                 programPath.getText()!=null&&
                 tests!=null&&
                 resultsLV !=null&&
-                result.length==test.length&&
-                language.getValue()!=null){
-        switch (language.getValue().toString()){
-            case "Python":
+                result!=null&&
+                test!=null&&
+                language.getValue()!=null) {
+            if (result.length == test.length) {
                 complete = 0;
-                    for (int iterator = 0;iterator<test.length;iterator++){
-                        resultsProgram = new DataFile[test.length];
-                        resultsProgram[iterator] = new DataFile();
-                        resultsProgram[iterator].setText(CompilerForLanguages.compileForPython(test[iterator].getPath(),
-                                compilatorPath.getText(),
-                                programPath.getText()));
-                        if(resultsProgram[iterator].getText().
-                                equals(result[iterator].getText())) {
-                            resultsProgram[iterator].setName(test[iterator].getName()+":Правильно");
-                            resultsProgram[iterator].setText(result[iterator].getText());
-                            nameList.add(resultsProgram[iterator].getName());
-                            complete++;
-                        }
-                        else  {
-                            resultsProgram[iterator].setName(test[iterator].getName()+":Неправильно");
-                            nameList.add(resultsProgram[iterator].getName());
-                        }
-                    }
+                for (int iterator = 0; iterator < test.length; iterator++) {
+                    resultsProgram = new DataFile[test.length];
+                    resultsProgram[iterator] = new DataFile();
+                    resultsProgram[iterator].setText(languageMap.get(language.getValue().toString()).resultProg(test[iterator],
+                            languageProgram,
+                            userProgram));
+                    if (resultsProgram[iterator].getText().
+                            equals(result[iterator].getText())) {
 
-                    resultsFiles.setItems(nameList);
-                    mark.setText(String.format("%.1f",(double)complete/ resultsProgram.length*10));
-                    progressMark.setProgress((double) complete/ resultsProgram.length);
-                    nameList.removeAll();
-                    break;
-                case "Java":
-                    break;
+                        resultsProgram[iterator].setName(test[iterator].getName() + ":Правильно");
+                        nameList.add(resultsProgram[iterator].getName());
+                        complete++;
+
+                    } else {
+
+                        resultsProgram[iterator].setName(test[iterator].getName() + ":Неправильно");
+                        nameList.add(resultsProgram[iterator].getName());
+                    }
+                }
+                resultsFiles.setItems(nameList);
+                mark.setText(String.format("%.1f", (double) complete / resultsProgram.length * 10));
+                progressMark.setProgress((double) complete / resultsProgram.length);
+                nameList.removeAll();
+                errorLog.setText("");
+            } else {
+                errorLog.setText("Ошибка");
             }
         }
-        else{
+            else{
             errorLog.setText("Ошибка");
         }
     }
 
     public void onSwitchLanguage(ActionEvent actionEvent) {
         ComboBox cb = (ComboBox) actionEvent.getSource();
+
         switch (cb.getValue().toString()){
             case "Java":
                 buttonForDirectory.setVisible(true);
                 buttonForCompilator.setVisible(false);
+                compilatorPath.setPromptText("Путь до jdk");
                 break;
             default:
                 buttonForCompilator.setVisible(true);
                 buttonForDirectory.setVisible(false);
+                compilatorPath.setPromptText("Путь до компилятора/интерпретатора");
                 break;
         }
     }
@@ -152,7 +163,6 @@ public class Controller{
                 if (results1LV !=null)results1Text.setItems(result[listView.getSelectionModel().getSelectedIndex()].getText());
                 break;
             case "resultsFiles":
-                System.out.println(listView.getSelectionModel().getSelectedIndex());
                 if (resultsFiles!=null){
                     if(resultsProgram[listView.getSelectionModel().getSelectedIndex()]!=null)resultsProgramText.setItems(resultsProgram[listView.getSelectionModel().getSelectedIndex()].getText());
                     else resultsProgramText.setItems(result[listView.getSelectionModel().getSelectedIndex()].getText());
@@ -160,6 +170,26 @@ public class Controller{
                 break;
 
         }
+    }
+
+    public void initialize(){
+        ObservableList<String> languageList = FXCollections.observableArrayList();
+        languageMap.clear();
+
+        languageMap.put("Python",new Language());
+        languageMap.get("Python").setCanInterpreted(true);
+        languageMap.put("Pascal",new Language());
+        languageMap.get("Pascal").setCanCompiling(true);
+        languageMap.put("Java",new Language());
+        languageMap.get("Java").setJava(true);
+        languageMap.put("Exe",new Language());
+        languageMap.get("Exe").setExe(true);
+        for (String language: languageMap.keySet()
+             ) {
+            languageList.add(language);
+        }
+
+        language.setItems(languageList);
     }
 
     public void openPackage(ActionEvent actionEvent) {

@@ -18,16 +18,13 @@
                         <ComboBox fx:id="language" layoutX="88.0" layoutY="51.0" onAction="#onSwitchLanguage" prefWidth="150.0" promptText="ЯП">
                             <items>
                                 <FXCollections fx:factory="observableArrayList">
-                                    <String fx:value="Python" />
-                                    <String fx:value="Java" />
-                                    <String fx:value="Pascal" />
-                                    <String fx:value=".Exe" />
+
                                 </FXCollections>
                             </items>
                         </ComboBox>
-                        <TextField editable="false" fx:id="programPath" layoutX="51.0" layoutY="110.0" prefHeight="25.0" prefWidth="276.0" promptText="Путь до программы"/>
+                        <TextField fx:id="programPath" editable="false" layoutX="51.0" layoutY="110.0" prefHeight="25.0" prefWidth="276.0" promptText="Путь до программы" />
                         <Button fx:id="buttonForProgram" layoutX="361.0" layoutY="110.0" mnemonicParsing="false" onAction="#openFilePath" text="Открыть..." />
-                        <TextField editable="false" fx:id="compilatorPath" layoutX="51.0" layoutY="161.0" prefHeight="25.0" prefWidth="276.0" promptText="Путь до компилятора/интерпретатора" />
+                        <TextField fx:id="compilatorPath" editable="false" layoutX="51.0" layoutY="161.0" prefHeight="25.0" prefWidth="276.0" promptText="Путь до компилятора/интерпретатора" />
                         <Button fx:id="buttonForCompilator" layoutX="361.0" layoutY="161.0" mnemonicParsing="false" onAction="#openFilePath" text="Открыть..." />
                         <Button layoutX="534.0" layoutY="332.0" mnemonicParsing="false" onAction="#start" text="Начать" />
                         <Button fx:id="buttonForDirectory" layoutX="361.0" layoutY="161.0" mnemonicParsing="false" onAction="#openPackage" text="Открыть..." visible="false" />
@@ -43,7 +40,15 @@
                         <Label layoutX="136.0" text="Тесты" />
                         <ScrollPane fx:id="scTests" fitToHeight="true" hbarPolicy="NEVER" layoutY="14.0" maxWidth="-Infinity" prefHeight="180.0" prefWidth="300.0" vbarPolicy="NEVER">
                             <content>
-                                <ListView fx:id="tests" maxHeight="-Infinity" maxWidth="-Infinity" minWidth="0.0" onMouseClicked="#onSwitchFile" prefHeight="178.0" prefWidth="300.0" />
+                                <ListView fx:id="tests" maxHeight="-Infinity" maxWidth="-Infinity" minWidth="0.0" onMouseClicked="#onSwitchFile" prefHeight="178.0" prefWidth="300.0">
+                           <contextMenu>
+                              <ContextMenu>
+                                <items>
+                                  <MenuItem mnemonicParsing="false" text="Открыть" />
+                                    <MenuItem mnemonicParsing="false" text="Удалить" />
+                                </items>
+                              </ContextMenu>
+                           </contextMenu></ListView>
                             </content>
                         </ScrollPane>
                         <Button fx:id="addTests" layoutX="223.0" layoutY="194.0" mnemonicParsing="false" onAction="#addItems" text="Добавить..." />

@@ -38,7 +38,7 @@ public class Controller{
 
     DataFile userProgram = new DataFile(),languageProgram = new DataFile();
 
-    private Map<String,Language> languageMap = new HashMap<String, Language>();
+    private Map<String,Language> languageMap = new HashMap<>();
 
     private int complete;
 
@@ -178,12 +178,12 @@ public class Controller{
 
         languageMap.put("Python",new Language());
         languageMap.get("Python").setCanInterpreted(true);
-        languageMap.put("Pascal",new Language());
-        languageMap.get("Pascal").setCanCompiling(true);
-        languageMap.put("Java",new Language());
-        languageMap.get("Java").setJava(true);
-        languageMap.put("Exe",new Language());
-        languageMap.get("Exe").setExe(true);
+//        languageMap.put("Pascal",new Language());
+//        languageMap.get("Pascal").setCanCompiling(true);
+//        languageMap.put("Java",new Language());
+//        languageMap.get("Java").setJava(true);
+//        languageMap.put("Exe",new Language());
+//        languageMap.get("Exe").setExe(true);
         for (String language: languageMap.keySet()
              ) {
             languageList.add(language);

@@ -1,18 +1,16 @@
 package example.TestingSystem;
 
 import javafx.application.Application;
-import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.ComboBox;
 import javafx.stage.Stage;
 
 public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{ //Запуск окна
-       primaryStage.setResizable(false);
+        primaryStage.setResizable(false);
         Parent root = FXMLLoader.load(getClass().getResource("/TestingSystem.fxml"));
         primaryStage.setTitle("Testing System");
         primaryStage.setScene(new Scene(root, 600, 400));
